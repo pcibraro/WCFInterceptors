@@ -7,8 +7,8 @@
     <ProjectGuid>{CE42388B-05D6-45E8-8392-4375E1C33722}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JMFamily.WCF.ServiceAuthenticator</RootNamespace>
-    <AssemblyName>JMFamily.WCF.ServiceAuthenticator</AssemblyName>
+    <RootNamespace>Agilesight.WCF.ServiceAuthenticator</RootNamespace>
+    <AssemblyName>Agilesight.WCF.ServiceAuthenticator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

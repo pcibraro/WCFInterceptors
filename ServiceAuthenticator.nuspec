@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Pablo Cibraro</authors>
+    <owners>Pablo Cibraro</owners>
+    <projectUrl>https://github.com/pcibraro/WCFInterceptors</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Hawk JWT Http Authentication </description>
+    <copyright>Copyright 2021</copyright>
+    <tags>Auth Security Hawk WCF JWT AzureAD</tags>
+  </metadata>
+  <files>
+        <file src=".\bin\Release\Agilesight.WCF.ServiceAuthenticator.dll" target="lib\net45\Agilesight.WCF.ServiceAuthenticator.dll" />
+  </files>
+</package>
