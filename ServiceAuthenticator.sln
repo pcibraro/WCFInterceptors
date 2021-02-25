@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceAuthenticator", "ServiceAuthenticator.csproj", "{CE42388B-05D6-45E8-8392-4375E1C33722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceAuthenticator.Sample", "ServiceAuthenticator.Sample\ServiceAuthenticator.Sample.csproj", "{461B8526-D778-4848-B767-886ABC40B2C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE42388B-05D6-45E8-8392-4375E1C33722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE42388B-05D6-45E8-8392-4375E1C33722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE42388B-05D6-45E8-8392-4375E1C33722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE42388B-05D6-45E8-8392-4375E1C33722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461B8526-D778-4848-B767-886ABC40B2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461B8526-D778-4848-B767-886ABC40B2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461B8526-D778-4848-B767-886ABC40B2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461B8526-D778-4848-B767-886ABC40B2C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD76DA78-4FE1-4408-B013-58AB7D44BE34}
+	EndGlobalSection
+EndGlobal
