@@ -52,7 +52,7 @@ namespace ServiceAuthenticator.Sample
 
             MakeCallWithHawk(credential);
             
-            MakeCallWithJwt(ConfigurationManager.AppSettings["TenantId"],
+            MakeCallWithJwt(ConfigurationManager.AppSettings["ClientTenantId"],
                 ConfigurationManager.AppSettings["ClientId"],
                 ConfigurationManager.AppSettings["ClientSecret"],
                 ConfigurationManager.AppSettings["Scope"]);

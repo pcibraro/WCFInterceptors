@@ -113,10 +113,9 @@ namespace JMFamily.WCF.ServiceAuthenticator
                 var validationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = true,
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     IssuerSigningKeys = config.SigningKeys,
                     ValidateLifetime = true,
-                    ValidIssuer = config.Issuer,
                     ValidAudience = this.audience
                 };
 
