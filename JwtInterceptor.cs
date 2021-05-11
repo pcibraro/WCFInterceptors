@@ -28,14 +28,14 @@ namespace JMFamily.WCF.ServiceAuthenticator
 
         Predicate<System.ServiceModel.Channels.Message> endpointFilter;
         string tenantId;
-        string audience;
+        string[] audiences;
 
-        public JwtInterceptor(string tenantId, string audience, Predicate<Message> endpointFilter = null)
+        public JwtInterceptor(string tenantId, string[] audiences, Predicate<Message> endpointFilter = null)
             : base(false)
         {
             this.endpointFilter = endpointFilter;
             this.tenantId = tenantId;
-            this.audience = audience;
+            this.audiences = audiences;
         }
 
         public override void ProcessRequest(ref RequestContext requestContext)
@@ -116,7 +116,8 @@ namespace JMFamily.WCF.ServiceAuthenticator
                     ValidateIssuer = false,
                     IssuerSigningKeys = config.SigningKeys,
                     ValidateLifetime = true,
-                    ValidAudience = this.audience
+                    ValidAudiences = this.audiences
+                    
                 };
 
                 var tokendHandler = new JwtSecurityTokenHandler();

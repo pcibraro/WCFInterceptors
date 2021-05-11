@@ -56,7 +56,7 @@ namespace JMFamily.WCF.ServiceAuthenticator
                 timeskew);
 
             var jwtInterceptor = new JwtInterceptor(ConfigurationManager.AppSettings["TenantId"],
-                ConfigurationManager.AppSettings["Audience"],
+                ConfigurationManager.AppSettings["Audience"].Split(';'),
                 GetEndpointFilter);
 
             var allInterceptors = new Dictionary<string, RequestInterceptor>();
