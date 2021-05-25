@@ -15,9 +15,12 @@ namespace JMFamily.WCF.ServiceAuthenticator
 
         IDictionary<string, RequestInterceptor> innerInterceptors;
 
-        public ServiceAuthenticationInterceptor(IDictionary<string, RequestInterceptor> innerInterceptors) : base(false)
+        Predicate<Message> endpointFilter = null;
+
+        public ServiceAuthenticationInterceptor(IDictionary<string, RequestInterceptor> innerInterceptors, Predicate<Message> endpointFilter = null) : base(false)
         {
             this.innerInterceptors = innerInterceptors;
+            this.endpointFilter = endpointFilter;
         }
 
         public override void ProcessRequest(ref System.ServiceModel.Channels.RequestContext requestContext)
@@ -26,34 +29,37 @@ namespace JMFamily.WCF.ServiceAuthenticator
 
             var request = (HttpRequestMessageProperty)requestMessage.Properties[HttpRequestMessageProperty.Name];
 
-            var authHeader = request.Headers["Authorization"];
-
-            var interceptorFound = false;
-
-            if (authHeader != null)
+            if (endpointFilter == null || endpointFilter(requestMessage))
             {
-                foreach (var innerInterceptor in this.innerInterceptors)
+                var authHeader = request.Headers["Authorization"];
+
+                var interceptorFound = false;
+
+                if (authHeader != null)
                 {
-                    if(authHeader.StartsWith(innerInterceptor.Key, StringComparison.InvariantCultureIgnoreCase))
+                    foreach (var innerInterceptor in this.innerInterceptors)
                     {
-                        interceptorFound = true;
+                        if (authHeader.StartsWith(innerInterceptor.Key, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            interceptorFound = true;
 
-                        innerInterceptor.Value.ProcessRequest(ref requestContext);
+                            innerInterceptor.Value.ProcessRequest(ref requestContext);
 
-                        break;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if(!interceptorFound) 
-            {
-                var reply = Message.CreateMessage(MessageVersion.None, null);
-                var responseProperty = new HttpResponseMessageProperty() { StatusCode = HttpStatusCode.Unauthorized };
+                if (!interceptorFound)
+                {
+                    var reply = Message.CreateMessage(MessageVersion.None, null);
+                    var responseProperty = new HttpResponseMessageProperty() { StatusCode = HttpStatusCode.Unauthorized };
 
-                reply.Properties[HttpResponseMessageProperty.Name] = responseProperty;
-                requestContext.Reply(reply);
+                    reply.Properties[HttpResponseMessageProperty.Name] = responseProperty;
+                    requestContext.Reply(reply);
 
-                requestContext = null;
+                    requestContext = null;
+                }
             }
         }
     }

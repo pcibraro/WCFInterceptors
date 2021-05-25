@@ -52,18 +52,17 @@ namespace JMFamily.WCF.ServiceAuthenticator
             var hawkInterceptor = new HawkRequestInterceptor(
                 credentials,
                 true,
-                GetEndpointFilter,
+                null,
                 timeskew);
 
             var jwtInterceptor = new JwtInterceptor(ConfigurationManager.AppSettings["TenantId"],
-                ConfigurationManager.AppSettings["Audience"].Split(';'),
-                GetEndpointFilter);
+                ConfigurationManager.AppSettings["Audience"].Split(';'));
 
             var allInterceptors = new Dictionary<string, RequestInterceptor>();
             allInterceptors.Add("Hawk", hawkInterceptor);
             allInterceptors.Add("Bearer", jwtInterceptor);
 
-            var authenticator = new ServiceAuthenticationInterceptor(allInterceptors);
+            var authenticator = new ServiceAuthenticationInterceptor(allInterceptors, GetEndpointFilter);
 
             result.Interceptors.Add(authenticator);
 
