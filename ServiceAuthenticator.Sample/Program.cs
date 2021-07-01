@@ -19,7 +19,7 @@ namespace ServiceAuthenticator.Sample
 
         static void Main(string[] args)
         {
-            ServiceAuthenticatorFactory factory = new ServiceAuthenticatorFactory();
+            ServiceAuthenticatorFactory factory = new MyServiceAuthenticatorFactory();
             var host = factory.CreateHost(typeof(CustomerDataService),
                 new Uri[] { new Uri("http://localhost:8090/CustomerOData") });
 
@@ -46,7 +46,7 @@ namespace ServiceAuthenticator.Sample
             {
                 Id = "id",
                 Key = ConfigurationManager.AppSettings["HawkKey"],
-                Algorithm = "sha256",
+                Algorithm = "HMACSHA256",
                 User = "steve"
             };
 

@@ -20,16 +20,8 @@ namespace JMFamily.WCF.ServiceAuthenticator
             return this.CreateServiceHost(serviceType, baseAddresses);
         }
 
-        protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
+        protected virtual Func<string, HawkCredential> GetCredentials()
         {
-            int timeskew;
-
-            if (ConfigurationManager.AppSettings["HawkTimeSkewSeconds"] == null ||
-                !int.TryParse(ConfigurationManager.AppSettings["HawkTimeSkewSeconds"], out timeskew))
-            {
-                timeskew = 300;
-            }
-
             Func<string, HawkCredential> credentials = id =>
             {
                 string key = ConfigurationManager.AppSettings["HawkKey"];
@@ -47,30 +39,10 @@ namespace JMFamily.WCF.ServiceAuthenticator
                 return null;
             };
 
-            var result = new WebServiceHost2(serviceType, true, baseAddresses);
-
-            var hawkInterceptor = new HawkRequestInterceptor(
-                credentials,
-                true,
-                null,
-                timeskew);
-
-            var jwtInterceptor = new JwtInterceptor(ConfigurationManager.AppSettings["TenantId"],
-                ConfigurationManager.AppSettings["Audience"].Split(';'));
-
-            var allInterceptors = new Dictionary<string, RequestInterceptor>();
-            allInterceptors.Add("Hawk", hawkInterceptor);
-            allInterceptors.Add("Bearer", jwtInterceptor);
-
-            var authenticator = new ServiceAuthenticationInterceptor(allInterceptors, GetEndpointFilter);
-
-            result.Interceptors.Add(authenticator);
-
-            return result;
-
+            return credentials;
         }
 
-        private static bool GetEndpointFilter(Message request)
+        protected virtual bool GetEndpointFilter(Message request)
         {
             if (request.Properties.Via.AbsoluteUri.ToLower().EndsWith("$metadata"))
                 return false;
@@ -98,5 +70,42 @@ namespace JMFamily.WCF.ServiceAuthenticator
                 return null;
             }
         }
+
+        protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
+        {
+            int timeskew;
+
+            if (ConfigurationManager.AppSettings["HawkTimeSkewSeconds"] == null ||
+                !int.TryParse(ConfigurationManager.AppSettings["HawkTimeSkewSeconds"], out timeskew))
+            {
+                timeskew = 300;
+            }
+
+            var credentials = GetCredentials();
+
+            var result = new WebServiceHost2(serviceType, true, baseAddresses);
+
+            var hawkInterceptor = new HawkRequestInterceptor(
+                credentials,
+                true,
+                null,
+                timeskew);
+
+            var jwtInterceptor = new JwtInterceptor(ConfigurationManager.AppSettings["TenantId"],
+                ConfigurationManager.AppSettings["Audience"].Split(';'));
+
+            var allInterceptors = new Dictionary<string, RequestInterceptor>();
+            allInterceptors.Add("Hawk", hawkInterceptor);
+            allInterceptors.Add("Bearer", jwtInterceptor);
+
+            var authenticator = new ServiceAuthenticationInterceptor(allInterceptors, GetEndpointFilter);
+
+            result.Interceptors.Add(authenticator);
+
+            return result;
+
+        }
+
+        
     }
 }

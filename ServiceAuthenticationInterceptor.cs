@@ -43,8 +43,14 @@ namespace JMFamily.WCF.ServiceAuthenticator
                         {
                             interceptorFound = true;
 
-                            innerInterceptor.Value.ProcessRequest(ref requestContext);
-
+                            try
+                            {
+                                innerInterceptor.Value.ProcessRequest(ref requestContext);
+                            }
+                            catch(Exception ex)
+                            {
+                                throw;
+                            }
                             break;
                         }
                     }
