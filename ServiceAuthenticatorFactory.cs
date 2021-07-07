@@ -31,7 +31,7 @@ namespace JMFamily.WCF.ServiceAuthenticator
                     {
                         Id = id,
                         Key = key,
-                        Algorithm = "sha256",
+                        Algorithm = "HMACSHA256",
                         User = id
                     };
                 }
